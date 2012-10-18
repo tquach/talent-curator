@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}login{% endblock %}
+{% block content %}
+    {% if g.user %}
+        <div class="hero-unit">
+            Welcome back, {{ g.user.name }}.
+        </div>
+    {% else %}
+        <div class="span8 offset3">
+            <div class="hero-unit">
+                <h2>Login with Your Google Account </h2>
+
+                <a class="btn btn-info" href="http://google.com">
+                    <img src="static/img/google-plus-icon.svg" width="34px;" />
+                      Sign in with Google 
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

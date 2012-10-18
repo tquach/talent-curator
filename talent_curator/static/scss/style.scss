@@ -1,0 +1,21 @@
+@import url("http://fonts.googleapis.com/css?family=Voltaire");
+@import url("http://fonts.googleapis.com/css?family=Montserrat Alternates");
+
+$icons-layout: diagonal;
+
+@import "icons/*.png";
+
+@include all-icons-sprites;
+
+@import "compass";
+@import "bootstrap/bootstrap";
+@import "bootstrap/responsive";
+
+h1 {
+    font-family: "Voltaire";
+    @include text-shadow(rgba(255,255,255,1) 0 1px 0);
+}
+
+h2 { 
+	font-family: "Montserrat Alternates";
+}
