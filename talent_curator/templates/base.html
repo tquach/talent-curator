@@ -23,8 +23,10 @@
         <![endif]-->
         <div class="container">
             <div id="header" class="row">
-                <div class="page-header offset2">
-                    <h1>talent curation <small>{% block sub_heading %}{% endblock %}</small></h1>
+                <div class="offset2">
+                    <div class="page-header">
+                        <h1>talent curation <small>{% block sub_heading %}{% endblock %}</small></h1>
+                    </div>
                 </div>
             </div>
 
@@ -33,9 +35,11 @@
             </div>
 
             <div id="footer" class="row">
-                {% block footer %}
-                Powered by Poprock Software Ltd. &copy; Copyright 2012
-                {% endblock %}
+                <div class="offset2">
+                    {% block footer %}
+                    Powered by Poprock Software Ltd. &copy; Copyright 2012
+                    {% endblock %}
+                </div>
             </div>
         </div>
 

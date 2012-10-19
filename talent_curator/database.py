@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from talent_curator import app
 
-engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
+engine = create_engine(app.config['DATABASE_URI'], convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -16,3 +17,4 @@ def init_db():
     # you will have to import them first before calling init_db()
     import apps.models
     Base.metadata.create_all(bind=engine)
+

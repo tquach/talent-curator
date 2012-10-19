@@ -6,10 +6,12 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    userid = Column(String)
+    email = Column(String(100))
+    oauth_token = Column(String(200))
+    oauth_secret = Column(String(200))
 
-    def __init__(self, userid):
-        self.userid = userid
+    def __init__(self, email):
+        self.email = email
 
     def __repr__(self):
-        return "User[userid=%s]" % self.userid
+        return "User[email=%s]" % self.email
