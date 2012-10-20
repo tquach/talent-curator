@@ -1,5 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Voltaire");
-@import url("http://fonts.googleapis.com/css?family=Montserrat Alternates");
+@import url("http://fonts.googleapis.com/css?family=Marcellus");
 
 $icons-layout: diagonal;
 
@@ -11,15 +10,22 @@ $icons-layout: diagonal;
 @import "bootstrap/bootstrap";
 @import "bootstrap/responsive";
 
+body {
+    font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial;
+}
+
 h1 {
-    font-family: "Voltaire";
+    font-family: "Marcellus";
+    color: darken($blueDark, 15%);
     @include text-shadow(rgba(255,255,255,1) 0 1px 0);
     small {
     	font-family: "Helvetica";
     }
 }
 
+div.hero-unit {
+    background: darken($purple, 15%) image-url('bg-hero.jpg') repeat;
+    color: $grayLighter;
 
-h2 { 
-	font-family: "Montserrat Alternates";
+
 }

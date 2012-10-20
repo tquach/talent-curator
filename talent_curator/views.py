@@ -37,11 +37,6 @@ def get_google_token(token=None):
     return session.get(GOOGLE_ACCESS_TOKEN)
 
 
-@app.route('/talent_curator_oauthredir')
-def oauth_redir():
-    return render_template('success.html')
-
-
 @app.route('/')
 def index():
     access_token = session.get(GOOGLE_ACCESS_TOKEN)
