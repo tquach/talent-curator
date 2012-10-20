@@ -1,9 +1,9 @@
 from urllib2 import Request, urlopen, URLError
-from flask import request, redirect, render_template, session, g, url_for, flash
-from talent_curator import app
-from talent_curator.apps import models
-from talent_curator.database import db_session
+
+from flask import redirect, render_template, session, g, url_for
+from talent_curator import app, main_blueprint
 from flask_oauth import OAuth
+
 import json
 
 
@@ -20,7 +20,8 @@ google = oauth.remote_app('talent_curator',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     request_token_url=None,
     request_token_params={
-        'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        'scope': 'https://www.googleapis.com/auth/userinfo.email \
+             https://www.googleapis.com/auth/userinfo.profile',
         'response_type': 'code',
         'state': 'random_nonce_123'
     },
@@ -37,14 +38,15 @@ def get_google_token(token=None):
     return session.get(GOOGLE_ACCESS_TOKEN)
 
 
-@app.route('/')
+@main_blueprint.route('/')
 def index():
     access_token = session.get(GOOGLE_ACCESS_TOKEN)
     if access_token is not None:
         access_token = access_token[0]
         logger.debug('Access_token=' + access_token)
         headers = {'Authorization': 'OAuth ' + access_token}
-        req = Request('https://www.googleapis.com/oauth2/v1/userinfo', None, headers)
+        req = Request('https://www.googleapis.com/oauth2/v1/userinfo',
+                        None, headers)
 
         try:
             res = urlopen(req)
@@ -52,7 +54,7 @@ def index():
             if e.code == 401:
                 # Unauthorized
                 session.pop(GOOGLE_ACCESS_TOKEN, None)
-                return redirect(url_for('/'))
+                return redirect(url_for('main_blueprint.index'))
             return res.read()
 
         g.user = json.loads(res.read())
@@ -60,31 +62,25 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/login')
+@main_blueprint.route('/login')
 def login():
     logger.debug('Login initiated.')
-    callback = url_for('oauth_authorized', _external=True)
+    callback = url_for('main_blueprint.oauth_authorized', _external=True)
     logger.debug("Callback %s", callback)
     return google.authorize(callback=callback)
 
 
-@app.route(REDIRECT_URI)
+@main_blueprint.route(REDIRECT_URI)
 @google.authorized_handler
 def oauth_authorized(resp):
     logger.debug('Received resp %s ', resp)
     access_token = resp[GOOGLE_ACCESS_TOKEN]
     session[GOOGLE_ACCESS_TOKEN] = access_token, ''
-    return redirect(url_for('index'))
+    return redirect(url_for('main_blueprint.index'))
 
 
-@app.route('/logout')
+@main_blueprint.route('/logout')
 def logout():
     session[GOOGLE_ACCESS_TOKEN] = None
     g.user = None
-    return redirect(url_for('index'))
-
-
-@app.after_request
-def after_request(response):
-    db_session.remove()
-    return response
+    return redirect(url_for('main_blueprint.index'))

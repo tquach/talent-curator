@@ -15,10 +15,15 @@ def init_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    import apps.models
     Base.metadata.create_all(bind=engine)
 
 
 @app.teardown_request
 def shutdown_session(exception=None):
     db_session.remove()
+
+
+@app.after_request
+def after_request(response):
+    db_session.remove()
+    return response
