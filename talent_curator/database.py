@@ -18,3 +18,7 @@ def init_db():
     import apps.models
     Base.metadata.create_all(bind=engine)
 
+
+@app.teardown_request
+def shutdown_session(exception=None):
+    db_session.remove()

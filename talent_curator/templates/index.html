@@ -5,18 +5,16 @@
 {% block content %}
     {% if g.user %}
         <div class="hero-unit">
-            Welcome back, {{ g.user.name }}.
+            <h2>Welcome back, {{ g.user.name }}.</h2>
         </div>
     {% else %}
-        <div class="span10 offset2">
-            <div class="hero-unit">
-                <h2>Login with Your Google Account </h2>
+        <div class="hero-unit">
+            <h2>Login with Your Google Account </h2>
 
-                <a class="btn btn-info" href="/login">
-                    <img src="static/img/google-plus-icon.svg" width="34px;" />
-                      Sign in with Google 
-                </a>
-            </div>
+            <a class="btn btn-info" href="/login">
+                <img src="static/img/google-plus-icon.svg" width="34px;" />
+                  Sign in with Google 
+            </a>
         </div>
     {% endif %}
 {% endblock content %}
