@@ -1,0 +1,8 @@
+After cloning, setting up your virtualenv, etc:
+
+  cd talent-curator/talent_curator/static/scss
+  compass compile
+
+Run server
+  cd talent-curator
+  python runserver.py
