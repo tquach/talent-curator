@@ -1,4 +1,6 @@
 # Require any additional compass plugins here.
+require "compass-colors"
+
 # Set this to the root of your project when deployed:
 http_path = "/static"
 http_stylesheets_path = http_path + "/css"

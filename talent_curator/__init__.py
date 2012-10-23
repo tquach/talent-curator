@@ -17,5 +17,3 @@ import talent_curator.apps.profile.views
 
 app.register_blueprint(main_blueprint)
 app.register_blueprint(profile_blueprint, url_prefix="/account")
-
-app.logger.debug(app.url_map)

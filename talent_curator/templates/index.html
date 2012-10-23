@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <script type="text/javascript">
+        $(".alert").alert();
+    </script>
+{% endblock %}
+
 {% block title %}welcome{% endblock %}
 {% block sub_heading %}take control of your talent acquisition{% endblock %}
 {% block content %}
@@ -9,14 +15,38 @@
             <div class="lead">
                 Who do you want to hire today?
             </div>
+            <a class="btn btn-large btn-primary btn-info" href="/candidates/list">
+                <div style="font-size: 28px">
+                    <i class="icon-file"></i>
+                    View all candidates
+                </div>
+            </a>
+            <a class="btn btn-large btn-primary btn-success" href="/candidates/upload">
+                <div style="font-size: 28px">
+                    <i class="icon-upload"> </i>
+                    Add New Candidate
+                </div>
+            </a>
         </div>
     {% else %}
-        <div class="hero-unit">
-            <h2>Get Started and Build Your Team</h2>
+        {% with messages  = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-block alert-error fade in" >
+            <button class="close" data-dismiss="alert" type="button">x</button>
+            <h4 class="alert-heading">Oh dear, that didn't work at all.</h4>
 
-            <a class="btn btn-info" href="/login">
-                <img src="static/img/google-plus-icon.svg" width="34px;" />
-                  Sign in with Google 
+            {% for msg in messages %}
+            <p>{{ msg }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="hero-unit">
+            <h2>Get Started Building Your Team</h2>
+            <a class="btn btn-info btn-primary btn-large" href="/login"  style="padding: 10px !important;">
+                <img src="/static/img/google-plus-icon.svg" width="45px" style="border-right: 1px dashed #dedede; margin-right: 10px; padding-right:10px"></img>
+                <span style="font-size: 18px" >Sign in with Google </span>
             </a>
         </div>
     {% endif %}

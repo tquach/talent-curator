@@ -1,6 +1,6 @@
 from urllib2 import Request, urlopen, URLError
 
-from flask import redirect, render_template, session, g, url_for
+from flask import redirect, render_template, session, g, url_for, request, flash
 from talent_curator import app, main_blueprint
 from flask_oauth import OAuth
 
@@ -11,6 +11,7 @@ GOOGLE_CLIENT_ID = '836771404345.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'SkXinXi8AwK26BWOLOQZ8yd3'
 GOOGLE_ACCESS_TOKEN = 'access_token'
 REDIRECT_URI = '/oauth2callback'
+SCOPES = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"
 
 logger = app.logger
 
@@ -20,8 +21,7 @@ google = oauth.remote_app('talent_curator',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     request_token_url=None,
     request_token_params={
-        'scope': 'https://www.googleapis.com/auth/userinfo.email \
-             https://www.googleapis.com/auth/userinfo.profile',
+        'scope': SCOPES,
         'response_type': 'code',
         'state': 'random_nonce_123'
     },
@@ -74,8 +74,13 @@ def login():
 @google.authorized_handler
 def oauth_authorized(resp):
     logger.debug('Received resp %s ', resp)
-    access_token = resp[GOOGLE_ACCESS_TOKEN]
-    session[GOOGLE_ACCESS_TOKEN] = access_token, ''
+    if resp:
+        access_token = resp[GOOGLE_ACCESS_TOKEN]
+        session[GOOGLE_ACCESS_TOKEN] = access_token, ''
+    else:
+        logger.debug(request.args)
+        if request.args and request.args['error']:
+            flash('Access Denied: Please grant permission to access your Google Account.')
     return redirect(url_for('main_blueprint.index'))
 
 
