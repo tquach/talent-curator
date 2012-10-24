@@ -11,11 +11,11 @@
 {% block content %}
     {% if g.user %}
         <div class="hero-unit">
-            <h2>Welcome back, {{ g.user.given_name }}.</h2>
+            <h2>Welcome back, {{ g.user.first_name }}.</h2>
             <div class="lead">
                 Who do you want to hire today?
             </div>
-            <a class="btn btn-large btn-primary btn-info" href="/candidates/list">
+            <a class="btn btn-large btn-primary btn-info" href="/candidates">
                 <div style="font-size: 28px">
                     <i class="icon-file"></i>
                     View Candidates
@@ -29,23 +29,13 @@
             </a>
         </div>
     {% else %}
-        {% with messages  = get_flashed_messages() %}
-        {% if messages %}
-        <div class="alert alert-block alert-error fade in" >
-            <button class="close" data-dismiss="alert" type="button">x</button>
-            <h4 class="alert-heading">Oh dear, that didn't work at all.</h4>
-
-            {% for msg in messages %}
-            <p>{{ msg }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-
         <div class="hero-unit">
             <h2>Start Building Your Team</h2>
-            <a class="btn btn-primary btn-large" href="/login"  style="padding: 10px !important;">
-                <img src="/static/img/google-plus-icon.svg" width="45px" style="border-right: 1px dashed #dedede; margin-right: 10px; padding-right:10px"></img>
+            <div class="lead">
+                Manage all your candidates in one place. 
+            </div>
+            <a class="btn btn-primary btn-large" href="/login">
+                <img class="hero-icon" src="/static/img/google-plus-icon.svg" width="45px"></img>
                 <span style="font-size: 18px" >Sign in with Google </span>
             </a>
         </div>
