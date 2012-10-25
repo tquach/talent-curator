@@ -1,5 +1,9 @@
-from flask import render_template
-from talent_curator import app, profile_blueprint
+import os
+from talent_curator import _basedir
+from flask import render_template, Blueprint
+
+profile_blueprint = Blueprint('profile_blueprint', __name__,
+                        template_folder=os.path.join(_basedir, 'templates/profile'))
 
 
 @profile_blueprint.route("/")

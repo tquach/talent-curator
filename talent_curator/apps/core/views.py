@@ -1,42 +1,27 @@
-from flask import redirect, session, g, url_for, request, flash, render_template
-from talent_curator import app, main_blueprint
+from flask import redirect, session, g, url_for, request, flash, render_template, Blueprint
+
+from talent_curator import app, _basedir
+
 from talent_curator.decorators import login_required, templated
-from flask_oauth import OAuth
-from talent_curator.apps.profile import models
 from talent_curator.database import db_session
+
+from talent_curator.apps.google import oauth_client, api
+from talent_curator.apps.profile import models
+
+import os
 import requests
 
-GOOGLE_USER_INFO = 'https://www.googleapis.com/oauth2/v1/userinfo'
-
-GOOGLE_CLIENT_ID = '836771404345.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'SkXinXi8AwK26BWOLOQZ8yd3'
-GOOGLE_ACCESS_TOKEN = 'access_token'
 REDIRECT_URI = '/oauth2callback'
-SCOPES = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"
+
+GOOGLE_USER_INFO = 'https://www.googleapis.com/oauth2/v1/userinfo'
+GOOGLE_ACCESS_TOKEN = 'access_token'
 
 logger = app.logger
 
-oauth = OAuth()
-google = oauth.remote_app('talent_curator',
-    base_url='https://www.google.com/accounts/',
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    request_token_url=None,
-    request_token_params={
-        'scope': SCOPES,
-        'response_type': 'code',
-        'state': 'random_nonce_123'
-    },
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    access_token_method='POST',
-    access_token_params={'grant_type': 'authorization_code'},
-    consumer_secret=GOOGLE_CLIENT_SECRET,
-    consumer_key=GOOGLE_CLIENT_ID)
+google_drive = api.GoogleDriveClient(oauth_client)
 
-
-@google.tokengetter
-def get_google_token(token=None):
-    logger.debug("Getting token %s", token)
-    return session.get(GOOGLE_ACCESS_TOKEN)
+main_blueprint = Blueprint('main_blueprint', __name__,
+                        template_folder=os.path.join(_basedir, 'templates'))
 
 
 @main_blueprint.route('/')
@@ -49,11 +34,16 @@ def login():
     logger.debug('Login initiated.')
     callback = url_for('main_blueprint.oauth_authorized', _external=True)
     logger.debug("Callback %s", callback)
-    return google.authorize(callback=callback)
+    return oauth_client.authorize(callback=callback)
+
+
+@oauth_client.tokengetter
+def get_google_token(token=None):
+    return session.get(GOOGLE_ACCESS_TOKEN)
 
 
 @main_blueprint.route(REDIRECT_URI)
-@google.authorized_handler
+@oauth_client.authorized_handler
 def oauth_authorized(resp):
     logger.debug('Received resp %s ', resp)
 
