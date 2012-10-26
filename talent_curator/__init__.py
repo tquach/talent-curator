@@ -11,3 +11,6 @@ app.register_blueprint(main_blueprint)
 
 from talent_curator.apps.profile.views import profile_blueprint
 app.register_blueprint(profile_blueprint, url_prefix="/account")
+
+from talent_curator.apps.candidates.views import candidates_blueprint
+app.register_blueprint(candidates_blueprint, url_prefix="/candidates")
