@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}manage your account{% endblock %}
+
+{% block content %}
+    <section id="account-contact">
+        <div class="span8">
+            <h1>Your Account</h1>
+        </div>
+         
+        <div class="span8">
+            <div class="span1">First Name</div>
+            <div class="span4">{{ account.first_name }}</div>
+        </div>
+         <div class="span8">
+            <div class="span1">Last Name</div>
+            <div class="span4">{{ account.last_name }}</div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+{% endblock %}

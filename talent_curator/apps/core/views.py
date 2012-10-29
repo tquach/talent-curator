@@ -4,7 +4,7 @@ from talent_curator import app, _basedir
 
 from talent_curator.database import db_session
 
-from talent_curator.apps.google import oauth_client, api
+from talent_curator.apps.google import oauth_client
 from talent_curator.apps.profile import models
 
 import os
@@ -17,7 +17,7 @@ GOOGLE_ACCESS_TOKEN = 'access_token'
 
 logger = app.logger
 
-google_drive = api.GoogleDriveClient(oauth_client)
+#google_drive = api.GoogleDriveClient(oauth_client)
 
 main_blueprint = Blueprint('main_blueprint', __name__,
                         template_folder=os.path.join(_basedir, 'templates'))
