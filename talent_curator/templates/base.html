@@ -23,13 +23,15 @@
         <![endif]-->
         <div class="navbar navbar-inverse">
             <div class="navbar-inner">
+                <a class="brand" href="/">Talent Curator</a>
                 <div class="container">
+
                     {% if g.user %}
                     <div class="btn-group pull-right">
                         <a class="btn btn-primary" href="#"><i class="icon-user"></i> {{ g.user.name }}</a>
                         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-caret-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-pencil"></i> Account</a></li>
+                            <li><a href="/profile"><i class="icon-pencil"></i> Account</a></li>
                             <li><a href="#"><i class="icon-lock"></i> Privacy</a></li>
                             <li class="divider"></li>
                             <li><a href="/logout"><i class="icon-signout"></i> Logout</a></li>
@@ -63,7 +65,9 @@
 
                 {% block content %}{% endblock %}
             </div>
-
+            <br clear="all" />
+            <br clear="all" />
+            <br clear="all" />
             <div id="footer" class="row">
                 {% block footer %}
                 Powered by Poprock Software Ltd. &copy; Copyright 2012
