@@ -49,8 +49,8 @@
                 </div>
             </div>
             
-            <div id="content" class="row">
-                {% with messages  = get_flashed_messages() %}
+            <div id="messages" class="row">
+            {% with messages  = get_flashed_messages() %}
                 {% if messages %}
                 <div class="alert alert-block alert-error fade in" >
                     <button class="close" data-dismiss="alert" type="button">x</button>
@@ -61,11 +61,11 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                {% endwith %}
-
+            {% endwith %}
+            </div>
+            <div id="content" class="row">
                 {% block content %}{% endblock %}
             </div>
-            <br clear="all" />
             <br clear="all" />
             <br clear="all" />
             <div id="footer" class="row">

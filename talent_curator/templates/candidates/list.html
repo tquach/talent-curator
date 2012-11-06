@@ -1,48 +1,27 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block title %}Candidate List{% endblock %}
 {% block sub_heading %}view candidate cvs{% endblock %}
-{% block content %}
-<div class="row">
-    <div class="span2">
-        <ul class="nav nav-list">
-          <li><a href="/"><i class="icon-home"></i> Home</a></li>
-          <li class="active"><a href="/candidates/list"><i class="icon-book"></i> Candidates</a></li>
-          <li><a href="/profile"><i class="icon-pencil"></i> Edit Account</a></li>
-          <li><a href="#"><i class="icon-cogs"></i> Settings</a></li>
-        </ul>
-    </div> 
-    <div class="span10">
-        <h2>Search for CV</h2>
-        <form class="search" action="/candidates/show" method="POST">
-            <input type="text" name="document_id" placeholder="Google Doc ID" class="input-xxlarge search-query"> <input type="submit" class="btn btn-primary">    
-        </form>
-
-        {% if document %}
-        <div class="page-header">
-            <h1>Candidate CV</h1>
-            <p class="lead">
-                <h2>Preview</h2>
-                {{ document['originalFilename']|safe }}
-                <br clear="all" />
-                <a href="{{ document['downloadUrl']}}"><img src="{{ document['thumbnailLink'] }}" class="img-polaroid" /></a>
-            </p>
-            <a class="btn btn-large btn-success" href="{{ document['downloadUrl'] }}">
-                <div style="font-size: 34px">
-                    <i class="icon-download"></i>
-                    Download CV
-                </div>
-            </a>
-            <p>
-                <h2>Raw json response</h2>
-                <pre>
-                    <code>
-{{ raw }}
-                    </code>
-                </pre>
-            </p>
-        </div>
+{% block sub_content %}
+{% for result in results %}
+    <div class="row">
+        <a href="{{ url_for('.children', folder_id=result['id']) }}">{{ result['title'] }}</a>
     </div>
-{% endif %}
+{% endfor %}
+
+{% for child in children %}
+<div class="row">
+<div class="media">
+  <a class="pull-left" href="{{ child['downloadUrl'] }}">
+    <img class="media-object img-polaroid" src="{{ child['thumbnailLink']}}">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ child['title'] }}</h4>
+  </div>
 </div>
+</div>
+{% endfor %}
+    <div class="btn-group">
+        <a class="btn btn-small" href="{{ url_for('.list') }}"><i class="icon-th-list"></i> View All Candidates</a>
+    </div>
 
 {% endblock %}
